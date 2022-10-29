@@ -32,7 +32,7 @@ const ClientType = new GraphQLObjectType({
     fields: () => ({
         id: {type: GraphQLID},
         name: {type: GraphQLString},
-        email: {type: GraphQLString},
+        email: {type: GraphQLID},
         phone: {type: GraphQLString}
     })
 });
@@ -91,6 +91,16 @@ const mutation = new GraphQLObjectType({
                 });
 
                 return client.save();
+            }
+        },
+        //Delete client
+        deleteClient: {
+            type: ClientType,
+            args: {
+                id: {type: GraphQLNonNull(GraphQLID)},
+            },
+            resolve(parent, args) {
+                return Client.findByIdAndRemove(args.id);
             }
         }
     }
